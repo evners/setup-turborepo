@@ -1,1 +1,39 @@
+# Node-related (even if you don't use Node runtime, just in case)
 node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Build artifacts (not needed because you're not compiling, but good practice)
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Editor-specific
+.vscode/
+.idea/
+*.swp
+
+# GitHub Actions temp files
+*.local
+
+# Coverage reports (in case you add tests later)
+coverage/
+
+# Ignore sensitive files
+.env
+.env.local
+.env.*.local
+*.pem
+
+# Ignore act cache if you use act for local testing
+~/.act/
