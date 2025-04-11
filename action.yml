@@ -1,51 +1,51 @@
-# -------------------------------------------------------------------
-# GitHub Action: Hello World
-# Description: A simple composite action that greets someone,
-# generates a random number, and optionally runs a custom script.
-# -------------------------------------------------------------------
+# This is a GitHub Action that sets up a Node.js environment with pnpm and turborepo.
+name: "Setup Turborepo"
+description: "A simple composite action that setup nodejs, pnpm and turborepo for monorepo projects."
 
-name: "Hello World"
-description: "Greet someone"
-
-# Define the inputs that users can pass to your action
-inputs:
-  who-to-greet:
-    description: "Who to greet"
-    required: true
-    default: "World"
-
-# Define the outputs your action will produce
+# Define the outputs of the action.
 outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-number }}
+  node-version:
+    description: "The Node.js version used in the setup."
+    value: ${{ steps.versions.outputs.node }}
+  pnpm-version:
+    description: "The pnpm version used in the setup."
+    value: ${{ steps.versions.outputs.pnpm }}
 
 # Define how the action runs.
 runs:
   using: "composite"
   steps:
-    # Step 1: Greet the user by echoing a message.
-    - name: Set Greeting
-      shell: bash
-      run: echo "Hello $INPUT_WHO_TO_GREET."
-      env:
-        INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
+    # Step 1: Checkout the repository code
+    # - This ensures that the repository files are available to the workflow.
+    - name: Checkout
+      uses: actions/checkout@v4
 
-    # Step 2: Generate a random number and expose it as an output.
-    - name: Random Number Generator
-      id: random-number-generator
+    # Step 2: Get Node.js version from package.json
+    # - Runs a custom script to extract the "engines.node" field from package.json.
+    # - This ensures we use the correct Node.js version defined by the project.
+    - id: get-node-version
+      name: Get Node.js version from package.json
       shell: bash
-      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+      run: sh ./scripts/get-node-version.sh
 
-    # Step 3: Set the GitHub Action path to the runner's PATH environment variable
-    # (Useful if you include custom scripts or binaries inside your action).
-    - name: Set GitHub Path
-      shell: bash
-      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
-      env:
-        GITHUB_ACTION_PATH: ${{ github.action_path }}
+    # Step 3: Setup pnpm
+    # - Installs pnpm globally in the environment.
+    # - pnpm is a faster, more efficient package manager compared to npm and yarn.
+    - id: setup-pnpm
+      name: Setup PNPM
+      uses: pnpm/action-setup@v4
 
-    # Step 4: Run a custom script named goodbye.sh from the action repository.
-    - name: Run goodbye.sh
+    # Step 4: Setup Node.js
+    # - Installs the specific Node.js version extracted from package.json.
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ steps.get-node-version.outputs.result }}
+
+    # Step 5: Output versions
+    # - Executes a custom script to retrieve and output the installed Node.js and pnpm versions.
+    # - The outputs will be available to other steps or jobs in the workflow.
+    - id: versions
+      name: Output versions
       shell: bash
-      run: sh ./scripts/goodbye.sh
+      run: sh ./scripts/outputs.sh
