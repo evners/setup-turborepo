@@ -3,10 +3,7 @@
 name: release
 
 # This workflow is triggered on specific events:
-# - Push events on the main branch
 on:
-  push:
-    branches: main
   # Also, allow manual triggering of the workflow.
   workflow_dispatch:
 
