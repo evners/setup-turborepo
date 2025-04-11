@@ -1,6 +1,6 @@
 # This is a GitHub Action that sets up a Node.js environment with pnpm and turborepo.
 name: "Setup Turborepo"
-description: "A simple composite action that setup nodejs, pnpm and turborepo for monorepo projects."
+description: "A simple composite action that setup nodejs and pnpm for turborepo projects."
 
 # Provides metadata about the action.
 author: "evners"
