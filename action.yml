@@ -1,0 +1,51 @@
+# -------------------------------------------------------------------
+# GitHub Action: Hello World
+# Description: A simple composite action that greets someone,
+# generates a random number, and optionally runs a custom script.
+# -------------------------------------------------------------------
+
+name: "Hello World"
+description: "Greet someone"
+
+# Define the inputs that users can pass to your action
+inputs:
+  who-to-greet:
+    description: "Who to greet"
+    required: true
+    default: "World"
+
+# Define the outputs your action will produce
+outputs:
+  random-number:
+    description: "Random number"
+    value: ${{ steps.random-number-generator.outputs.random-number }}
+
+# Define how the action runs.
+runs:
+  using: "composite"
+  steps:
+    # Step 1: Greet the user by echoing a message.
+    - name: Set Greeting
+      shell: bash
+      run: echo "Hello $INPUT_WHO_TO_GREET."
+      env:
+        INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
+
+    # Step 2: Generate a random number and expose it as an output.
+    - name: Random Number Generator
+      id: random-number-generator
+      shell: bash
+      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+
+    # Step 3: Set the GitHub Action path to the runner's PATH environment variable
+    # (Useful if you include custom scripts or binaries inside your action).
+    - name: Set GitHub Path
+      shell: bash
+      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+
+    # Step 4: Run a custom script named goodbye.sh from the action repository.
+    - name: Run goodbye.sh
+      shell: bash
+      run: sh ./scripts/goodbye.sh

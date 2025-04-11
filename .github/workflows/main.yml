@@ -1,0 +1,31 @@
+# Workflow to test the custom GitHub Action.
+name: main
+
+# Allow the workflow to be triggered manually.
+# This is useful for testing the action.
+on: workflow_dispatch
+
+# Define the jobs that will run when the workflow is triggered.
+jobs:
+  hello-world:
+    name: A job to say hello
+    # This job runs on the latest version of Ubuntu.
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out.
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Step 2: Execute the custom action.
+      - name: Execute Action
+        id: custom-action
+        uses: ./.
+        with:
+          who-to-greet: "Mona the Octocat"
+
+      # Step 3: Print random number.
+      - name: Print Random Number
+        shell: bash
+        run: echo random-number "$RANDOM_NUMBER"
+        env:
+          RANDOM_NUMBER: ${{ steps.custom-action.outputs.random-number }}
