@@ -2,6 +2,12 @@
 name: "Setup Turborepo"
 description: "A simple composite action that setup nodejs, pnpm and turborepo for monorepo projects."
 
+# Provides metadata about the action.
+author: "evners"
+branding:
+  icon: "code"
+  color: "green"
+
 # Define the outputs of the action.
 outputs:
   node-version:
