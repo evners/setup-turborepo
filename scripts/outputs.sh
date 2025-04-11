@@ -3,6 +3,9 @@
 # This script retrieves the installed Node.js and pnpm versions
 # and sets them as output variables for use in GitHub Actions.
 
+# If any command fails, the script will exit immediately.
+set -e
+
 # Get the current Node.js version and remove the leading 'v' character.
 NODE_VERSION=$(node --version | sed 's/^v//')
 

@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# ----------------------------------------------------------------------------------------------------
 # This script extracts the Node.js version from the package.json file and sets it as an output
 # variable for GitHub Actions. It uses jq to parse the JSON and retrieve the "engines.node" field.
-# ----------------------------------------------------------------------------------------------------
+
+# If any command fails, the script will exit immediately.
+set -e
 
 # Step 1: Verify if package.json exists in the current directory.
 if [ ! -f package.json ]; then
