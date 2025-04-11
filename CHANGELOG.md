@@ -1,3 +1,11 @@
+## [1.0.2](https://github.com/evners/setup-turborepo/compare/v1.0.1...v1.0.2) (2025-04-11)
+
+
+### Bug Fixes
+
+* release assets ([5cadbcc](https://github.com/evners/setup-turborepo/commit/5cadbcc5fa4642c445d0038dc5685647336f3460))
+* use github action path ([b978802](https://github.com/evners/setup-turborepo/commit/b978802bb0afe4a1263b978120b9afceaf8d0b13))
+
 ## [1.0.1](https://github.com/evners/setup-turborepo/compare/v1.0.0...v1.0.1) (2025-04-11)
 
 
