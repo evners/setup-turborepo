@@ -32,7 +32,7 @@ runs:
     - id: get-node-version
       name: Get Node.js version from package.json
       shell: bash
-      run: sh ./scripts/get-node-version.sh
+      run: bash ${{ github.action_path }}/scripts/get-node-version.sh
 
     # Step 3: Setup pnpm
     # - Installs pnpm globally in the environment.
@@ -54,4 +54,4 @@ runs:
     - id: versions
       name: Output versions
       shell: bash
-      run: sh ./scripts/outputs.sh
+      run: bash ${{ github.action_path }}/scripts/outputs.sh
