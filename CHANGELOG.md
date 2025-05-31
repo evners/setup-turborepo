@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/evners/setup-turborepo/compare/v1.0.2...v1.1.0) (2025-05-31)
+
+
+### Features
+
+* install deps or configure turbo globally ([15d1ba9](https://github.com/evners/setup-turborepo/commit/15d1ba97616ec0dbd22d5dbbf44b4680b464fb61)), closes [#2](https://github.com/evners/setup-turborepo/issues/2)
+
 ## [1.0.2](https://github.com/evners/setup-turborepo/compare/v1.0.1...v1.0.2) (2025-04-11)
 
 

@@ -1,7 +1,7 @@
 {
   "name": "setup-turborepo",
   "description": "Setup Node.js, PNPM, and Turborepo for monorepo projects automatically",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "keywords": [
     "bash",
