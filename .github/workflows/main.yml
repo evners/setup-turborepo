@@ -19,3 +19,5 @@ jobs:
       - name: Execute Action
         id: custom-action
         uses: ./
+        with:
+          install-deps: false

@@ -8,6 +8,13 @@ branding:
   icon: "code"
   color: "green"
 
+# Define inputs for the action.
+inputs:
+  install-deps:
+    description: "Install turbo CLI globally."
+    required: false
+    default: "true"
+
 # Define the outputs of the action.
 outputs:
   node-version:
@@ -30,7 +37,7 @@ runs:
     # - Runs a custom script to extract the "engines.node" field from package.json.
     # - This ensures we use the correct Node.js version defined by the project.
     - id: get-node-version
-      name: Get Node.js version from package.json
+      name: Get Node.js version
       shell: bash
       run: bash ${{ github.action_path }}/scripts/get-node-version.sh
 
@@ -48,7 +55,28 @@ runs:
       with:
         node-version: ${{ steps.get-node-version.outputs.result }}
 
-    # Step 5: Output versions
+    # Step 5: Install dependencies.
+    - name: Install dependencies
+      if: ${{ inputs.install-deps == 'true' }}
+      shell: bash
+      run: pnpm i --ignore-scripts
+
+    # Step 6: Get Turborepo version.
+    - id: get-turbo-version
+      if: ${{ inputs.install-deps != 'true' }}
+      name: Get Turbo version
+      shell: bash
+      run: bash ${{ github.action_path }}/scripts/get-turbo-version.sh
+
+    # Step 7: Install Turbo CLI globally using the extracted version.
+    - name: Install Turbo CLI globally
+      if: ${{ inputs.install-deps != 'true' }}
+      shell: bash
+      run: |
+        PNPM="${{ steps.setup-pnpm.outputs.bin_dest }}/pnpm"
+        "$PNPM" add -g turbo@${{ steps.get-turbo-version.outputs.result }}
+
+    # Step 8: Output versions
     # - Executes a custom script to retrieve and output the installed Node.js and pnpm versions.
     # - The outputs will be available to other steps or jobs in the workflow.
     - id: versions
